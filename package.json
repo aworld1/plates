@@ -1,7 +1,8 @@
 {
-  "name": "undo",
+  "name": "platesjs",
   "version": "1.0.0",
   "type": "module",
+  "main": "src/plates.js",
   "scripts": {
     "build": "uglifyjs src/plates.js -o dist/plates.min.js && copyfiles --flat src/plates.js dist/",
     "test": "mocha test/test.js"
