@@ -1,0 +1,24 @@
+{
+  "name": "undo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "uglifyjs src/plates.js -o dist/plates.min.js && copyfiles --flat src/plates.js dist/",
+    "test": "mocha test/test.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "author": "Assaf Cohen-Arazi",
+  "license": "MIT",
+  "description": "A lightweight, smart stack tracker that saves space while allowing for version control functionality",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "copyfiles": "^2.4.1",
+    "mocha": "^10.2.0",
+    "uglify-js": "^3.17.4"
+  }
+}
