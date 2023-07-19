@@ -2,6 +2,18 @@
 
 Plates.js is a simple and intelligent stack tracker that allows you to save space while providing version control functionality for your data. It offers a smart way to keep track of changes to objects by storing only the differences between versions, thus minimizing memory consumption.
 
+## Data Storage in the Plates Library
+
+The "plates" library optimizes data storage with the `Data` and `Change` classes, ensuring space efficiency, data integrity, and version control functionality.
+
+### Data Storage Efficiency
+
+The `Data` internal class stores raw data for large changes, eliminating overhead and optimizing space usage. This class is used for larger changes or new data.
+
+The `Change` internal class stores differences between objects, minimizing the stored data and reducing storage requirements. This class is used for incremental changes or large datasets.
+
+By combining these classes, the "plates" library achieves efficient data management, striking a balance between space optimization and data preservation.
+
 ## Installation
 
 ```bash
