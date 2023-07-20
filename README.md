@@ -2,10 +2,6 @@
 
 Plates.js is a simple and intelligent stack tracker that allows you to save space while providing version control functionality for your data. It offers a smart way to keep track of changes to objects by storing only the differences between versions, thus minimizing memory consumption.
 
-## Data Storage in the Plates Library
-
-The "plates" library optimizes data storage with the `Data` and `Change` classes, ensuring space efficiency, data integrity, and version control functionality.
-
 ### Data Storage Efficiency
 
 The `Data` internal class stores raw data for large changes, eliminating overhead and optimizing space usage. This class is used for larger changes or new data.
@@ -67,6 +63,16 @@ Move the stack pointer forward:
 plates.redo();
 ```
 
+### Other functionality
+
+```javascript
+plates.hasUndo(); // Returns true if there is an undo action available
+plates.hasRedo(); // Returns true if there is a redo action available
+plates.clear(); // Clears the stack
+plates.setOptions(options); // Sets the options for the stack
+plates.updateOptions(options); // Updates the options for the stack
+```
+
 ## Example
 
 ```javascript
@@ -93,6 +99,18 @@ console.log('Undo Data:', undoData); // Output: { name: 'John Doe', age: 30 }
 plates.redo();
 const redoData = plates.get();
 console.log('Redo Data:', redoData); // Output: { name: 'Jane Smith', age: 28, occupation: 'Engineer' }
+```
+
+## Options
+
+The `Plates` constructor accepts an optional `options` object as a second parameter. The following options are available with these defaults:
+
+```
+const DEFAULT_OPTIONS = {
+    alwaysPushRaw: false, // Always push raw data to the stack
+    onStackPush: () => {}, // Callback function to execute when pushing to the stack
+    onStackClear: () => {} // Callback function to execute when clearing the stack
+}
 ```
 
 ## Contributing

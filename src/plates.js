@@ -1,15 +1,38 @@
 import _ from 'lodash'
 
+const DEFAULT_OPTIONS = {
+    alwaysPushRaw: false,
+    onStackPush: () => {},
+    onStackClear: () => {}
+}
+
 export class Plates {
 
     /**
      * Create the Plates class that creates a stack of values
      * @param data the first value to store
+     * @param options
      */
-    constructor(data) {
-        this.stack = []; // Store all values
-        this.stackPointer = 0; // Store next available array index
+    constructor(data, options) {
+        this.setOptions(options);
+        this.stack = [];
+        this.stackPointer = 0;
         if (data) this.push(data);
+    }
+
+    /**
+     * Set the options
+     */
+    setOptions(options) {
+        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+    }
+
+    /**
+     * Update the options
+     * @param options
+     */
+    updateOptions(options) {
+        this.options = Object.assign({}, this.options, options);
     }
 
     /**
@@ -27,6 +50,43 @@ export class Plates {
     }
 
     /**
+     * Returns true if there is an undo available
+     */
+    hasUndo() {
+        return this.stackPointer > 0;
+    }
+
+    /**
+     * Returns true if there is a redo available
+     */
+    hasRedo() {
+        return this.stackPointer < this.stack.length;
+    }
+
+    /**
+     * Clears the stack
+     */
+    clear() {
+        this.stack = [];
+        this.stackPointer = 0;
+        this.options.onStackClear();
+    }
+
+    /**
+     * Go to the start of the stack
+     */
+    goToStart() {
+        this.stackPointer = 0;
+    }
+
+    /**
+     * Go to the end of the stack
+     */
+    goToEnd() {
+        this.stackPointer = this.stack.length;
+    }
+
+    /**
      * Add an object to the stack
      * @param obj
      */
@@ -35,7 +95,7 @@ export class Plates {
         this.stack = this.stack.slice(0, this.stackPointer);
         let curr = this.get();
         let raw = new Data(obj);
-        if (obj instanceof Object && curr instanceof Object) {
+        if (obj instanceof Object && curr instanceof Object && !this.options.alwaysPushRaw) {
             let diff = new Change(curr, obj);
             let sizeDiff = this._roughSizeOfObject(diff) - this._roughSizeOfObject(raw);
             sizeDiff > 0 ? this.stack.push(raw) : this.stack.push(diff);
@@ -44,6 +104,7 @@ export class Plates {
             this.stack.push(raw);
         }
         this.stackPointer++;
+        this.options.onStackPush();
     }
 
     /**

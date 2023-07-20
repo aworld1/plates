@@ -116,4 +116,61 @@ describe("plates", () => {
         p.push(differentO);
         expect(p.get()).to.deep.equal(differentO);
     });
+
+    it("has undo and redo", () => {
+        let p = new Plates(3);
+        expect(p.hasUndo()).to.equal(true);
+        expect(p.hasRedo()).to.equal(false);
+        p.undo();
+        expect(p.hasUndo()).to.equal(false);
+        expect(p.hasRedo()).to.equal(true);
+    });
+
+    it("clears the stack", () => {
+        let p = new Plates(3);
+        p.clear();
+        expect(p.get()).to.equal(null);
+    });
+
+    it("goes to the ends of the stack", () => {
+        let p = new Plates(3);
+        p.push(4);
+        p.push(5);
+        p.undo();
+        expect(p.hasUndo()).to.equal(true);
+        expect(p.hasRedo()).to.equal(true);
+
+        p.goToStart();
+        expect(p.hasUndo()).to.equal(false);
+        expect(p.hasRedo()).to.equal(true);
+
+        p.goToEnd();
+        expect(p.hasUndo()).to.equal(true);
+        expect(p.hasRedo()).to.equal(false);
+    });
+
+    it("callbacks", () => {
+        let p = new Plates();
+        let x = 0;
+        let y = 0;
+        function pushCallback() {
+            x++;
+        }
+        function clearCallback() {
+            y++;
+        }
+        p.setOptions({
+            onStackPush: pushCallback
+        });
+        p.push(1);
+        expect(x).to.equal(1);
+
+        p.updateOptions({
+            onStackClear: clearCallback
+        });
+        p.clear();
+        p.push(2);
+        expect(y).to.equal(1);
+        expect(x).to.equal(2);
+    });
 });
