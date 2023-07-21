@@ -1,10 +1,12 @@
 import _ from 'lodash'
 
 const DEFAULT_OPTIONS = {
-    alwaysPushRaw: false
+    alwaysPushRaw: false,
+    onStackPush: () => {},
+    onStackClear: () => {}
 }
 
-export class Plates {
+class Plates {
 
     /**
      * Create the Plates class that creates a stack of values
@@ -12,9 +14,25 @@ export class Plates {
      * @param options
      */
     constructor(data, options) {
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-        this.clear();
+        this.setOptions(options);
+        this.stack = [];
+        this.stackPointer = 0;
         if (data) this.push(data);
+    }
+
+    /**
+     * Set the options
+     */
+    setOptions(options) {
+        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+    }
+
+    /**
+     * Update the options
+     * @param options
+     */
+    updateOptions(options) {
+        this.options = Object.assign({}, this.options, options);
     }
 
     /**
@@ -51,6 +69,7 @@ export class Plates {
     clear() {
         this.stack = [];
         this.stackPointer = 0;
+        this.options.onStackClear();
     }
 
     /**
@@ -85,6 +104,7 @@ export class Plates {
             this.stack.push(raw);
         }
         this.stackPointer++;
+        this.options.onStackPush();
     }
 
     /**
@@ -255,3 +275,5 @@ class Change {
         return this.differences;
     }
 }
+
+export default Plates;

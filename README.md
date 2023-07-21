@@ -23,7 +23,7 @@ npm install platesjs
 To create a new instance of Plates and initialize it with the first value:
 
 ```javascript
-import { Plates } from 'plates';
+import Plates from 'plates';
 
 const initialData = { name: 'John Doe', age: 30 };
 const plates = new Plates(initialData);
@@ -76,7 +76,7 @@ plates.updateOptions(options); // Updates the options for the stack
 ## Example
 
 ```javascript
-import { Plates } from 'plates';
+import Plates from 'plates';
 
 // Create a new instance of Plates and initialize it with the first value
 const initialData = { name: 'John Doe', age: 30 };

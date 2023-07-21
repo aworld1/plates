@@ -6,7 +6,7 @@ const DEFAULT_OPTIONS = {
     onStackClear: () => {}
 }
 
-export class Plates {
+class Plates {
 
     /**
      * Create the Plates class that creates a stack of values
@@ -275,3 +275,5 @@ class Change {
         return this.differences;
     }
 }
+
+export default Plates;

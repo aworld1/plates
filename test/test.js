@@ -1,4 +1,4 @@
-import { Plates } from '../src/plates.js'
+import Plates from '../src/plates.js'
 import { expect } from 'chai';
 
 
